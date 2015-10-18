@@ -4,3 +4,7 @@ var config = module.exports = {};
 config.mongo = {};
 config.mongo.uri = process.env.MONGO_URI || 'localhost';
 // config.mongo.db
+
+// forecastio
+config.forecast = {}
+// config.forecast.apiKey
