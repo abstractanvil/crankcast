@@ -14,7 +14,7 @@ router.get('/forecast/:lat,:lon,:time', function(req, res, next) {
   http.get(url, function (fRes) {
     fRes.on('data', function (d) {
       var forecast = JSON.parse(d.toString('utf8'));
-      res.json(forecast);
+      res.json(forecast.currently);
     });
   });
 });
