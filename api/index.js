@@ -1,26 +1,21 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    http = require('https'),
+    config = require('../config');
 
-router.get('/messages', function(req, res, next) {
+router.get('/forecast/:lat,:lon,:time', function(req, res, next) {
 
-/*
-http.get(params, function (res) {
-  res.statusCode.should.eql(200);
+  var url = "https://api.forecast.io/forecast/"
+            + config.forecast.apiKey + "/"
+            + req.params.lat + ","
+            + req.params.lon + ","
+            + req.params.time;
 
-  res.on('data', function (d) {
-    var messages = JSON.parse(d.toString('utf8'));
-    messages.should.have.length(1);
-
-    var actual = messages[0];
-
-    actual.should.have.property('text').and.eql(expected.text);
-    done();
-  });
-});
-*/
-
-  Message.find(function (err, messages) {
-    res.json(messages);
+  http.get(url, function (fRes) {
+    fRes.on('data', function (d) {
+      var forecast = JSON.parse(d.toString('utf8'));
+      res.json(forecast);
+    });
   });
 });
 
