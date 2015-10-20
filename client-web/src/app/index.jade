@@ -6,11 +6,13 @@ html(ng-app="crankcast")
   body
     include ./includes/header.jade
         
-    section#index(ng-controller="MainController")
+    section#index(ng-controller="MainController as vm")
       h1 will this work?
       h2 hi grandmas
+      p {{vm.forecast.temperature}}
     
     include ./includes/footer.jade
     
     script(src="lib/angular/angular.js")
+    script(src="lib/d3/d3.js")
     script(src="scripts/app.js")

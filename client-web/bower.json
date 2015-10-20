@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "reset-css": "~2.0.2011012602",
-    "angular": "~1.4.7"
+    "angular": "~1.4.7",
+    "d3": "~3.5.6"
   },
   "devDependencies": {},
   "exportsOverride": {}
