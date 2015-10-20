@@ -1,12 +1,10 @@
 {
   "name": "crankcast",
   "version": "1.0.0",
-
   "dependencies": {
-    "reset-css": "~2.0.2011012602"
+    "reset-css": "~2.0.2011012602",
+    "angular": "~1.4.7"
   },
-
-  "devDependencies": { },
-
-  "exportsOverride": { }
+  "devDependencies": {},
+  "exportsOverride": {}
 }

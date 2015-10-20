@@ -1,14 +1,16 @@
 doctype html
-html
+html(ng-app="crankcast")
   - var title = 'Index'
   include ./includes/head.jade
   
   body
     include ./includes/header.jade
-    
-    section#index
-      img(src="assets/images/underconstruction.gif", alt="Under Construction")
+        
+    section#index(ng-controller="MainController")
+      h1 will this work?
+      h2 hi grandmas
     
     include ./includes/footer.jade
     
+    script(src="lib/angular/angular.js")
     script(src="scripts/app.js")
