@@ -8,8 +8,7 @@ html(ng-app="crankcast")
         
     section#index(ng-controller="MainController as vm")
       h1 will this work?
-      h2 hi grandmas
-      p {{vm.forecast.temperature}}
+      doublegauge(forecast="vm.forecast")
     
     include ./includes/footer.jade
     
