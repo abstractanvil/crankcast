@@ -8,8 +8,8 @@ html(ng-app="crankcast")
       article
         div
           h2 8:00am
-          p 65&deg; / 0%
-          h3 Real Nice
+          p {{ vm.forecast.temperature | number:0 }}&deg; / {{ vm.forecast.precipProbability }}%
+          h3 {{ vm.forecast.summary }}
         div
           h1 Today
         div
