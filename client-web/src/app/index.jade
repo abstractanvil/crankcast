@@ -4,14 +4,19 @@ html(ng-app="crankcast")
   include ./includes/head.jade
   
   body
-    include ./includes/header.jade
-        
     section#index(ng-controller="MainController as vm")
-      h1 will this work?
-      doublegauge(forecast="vm.forecast")
-    
-    include ./includes/footer.jade
-    
+      article
+        div
+          h2 8:00am
+          p 65&deg; / 0%
+          h3 Real Nice
+        div
+          h1 Today
+        div
+          h2 5:00pm
+          p 70&deg; / 0%
+          h3 Real Nice
+
     script(src="lib/angular/angular.js")
     script(src="lib/d3/d3.js")
     script(src="scripts/app.js")
