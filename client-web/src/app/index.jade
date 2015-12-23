@@ -8,7 +8,7 @@ html(ng-app="crankcast")
       article
         div
           h2 {{ vm.showTime(vm.am) }}
-          p {{ vm.forecast.am.temperature | number:0 }}&deg; / {{ vm.forecast.am.precipProbability }}%
+          p {{ vm.forecast.am.temperature | degrees }} / {{ vm.forecast.am.precipProbability | percent }}
           h3 {{ vm.forecast.am.summary }}
 
         div
@@ -16,7 +16,7 @@ html(ng-app="crankcast")
        
         div
           h2 {{ vm.showTime(vm.pm) }}
-          p {{ vm.forecast.pm.temperature | number:0 }}&deg; / {{ vm.forecast.pm.precipProbability }}%
+          p {{ vm.forecast.pm.temperature | degrees }} / {{ vm.forecast.pm.precipProbability | percent }}
           h3 {{ vm.forecast.pm.summary }}
 
     script(src="lib/angular/angular.js")
