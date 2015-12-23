@@ -7,13 +7,15 @@ html(ng-app="crankcast")
     section#index(ng-controller="MainController as vm")
       article
         div
-          h2 8:00am
+          h2 {{ vm.showTime(vm.am) }}
           p {{ vm.forecast.am.temperature | number:0 }}&deg; / {{ vm.forecast.am.precipProbability }}%
           h3 {{ vm.forecast.am.summary }}
+
         div
-          h1 Today
+          h1 {{ vm.showDate(vm.am) }}
+       
         div
-          h2 5:00pm
+          h2 {{ vm.showTime(vm.pm) }}
           p {{ vm.forecast.pm.temperature | number:0 }}&deg; / {{ vm.forecast.pm.precipProbability }}%
           h3 {{ vm.forecast.pm.summary }}
 
