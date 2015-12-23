@@ -3,36 +3,28 @@ var express = require('express'),
     http = require('https'),
     config = require('../config');
 
-router.get('/forecast/:lat,:lon,:time', function(req, res, next) {
+router.get('/forecast/:lat,:lon,:am,:pm', function(req, res, next) {
 
-  var url = "https://api.forecast.io/forecast/"
-            + config.forecast.apiKey + "/"
-            + req.params.lat + ","
-            + req.params.lon + ","
-            + req.params.time;
+  var url = `https://api.forecast.io/forecast/${config.forecast.apiKey}/${req.params.lat},${req.params.lon}`;
 
-  /*
-  http.get(url, function (fRes) {
-    fRes.on('data', function (d) {
-      var forecast = JSON.parse(d.toString('utf8'));
-      res.json(forecast.currently);
+  var amUrl = `${url},${req.params.am}`;
+
+  var pmUrl = `${url},${req.params.pm}`;
+  
+  var forecast = {};
+
+  http.get(amUrl, function (amRes) {
+    amRes.on('data', function (d) {
+      forecast.am  = JSON.parse(d.toString('utf8')).currently;
+
+      http.get(pmUrl, function (pmRes) {
+        pmRes.on('data', function(d) {
+          forecast.pm = JSON.parse(d.toString('utf8')).currently;
+          res.json(forecast);
+        });
+      });
     });
   });
-  */
-
-  var temp = {
-    "summary":"Clear",
-    "precipIntensity":0,
-    "precipProbability":0,
-    "temperature":42.31,
-    "apparentTemperature":40.31,
-    "humidity":0.78,
-    "windSpeed":3.66,
-    "windBearing":204,
-    "cloudCover":0.14
-  };
-
-  res.json(temp);
 });
 
 module.exports = router;
