@@ -14,7 +14,7 @@ html(ng-app="crankcast")
           h1 Today
         div
           h2 5:00pm
-          p {{ vm.forecast.pm.temperature | number:0 }}&deg; / {{ vm.forecast.am.precipProbability }}%
+          p {{ vm.forecast.pm.temperature | number:0 }}&deg; / {{ vm.forecast.pm.precipProbability }}%
           h3 {{ vm.forecast.pm.summary }}
 
     script(src="lib/angular/angular.js")

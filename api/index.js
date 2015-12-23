@@ -13,13 +13,28 @@ router.get('/forecast/:lat,:lon,:am,:pm', function(req, res, next) {
   
   var forecast = {};
 
+  // TODO refactor with promises and es6
   http.get(amUrl, function (amRes) {
+    var amData = '';
+    amRes.setEncoding('utf8');
+
     amRes.on('data', function (d) {
-      forecast.am  = JSON.parse(d.toString('utf8')).currently;
+      amData += d;
+    });
+
+    amRes.on('end', function () {
+      forecast.am  = JSON.parse(amData).currently;
 
       http.get(pmUrl, function (pmRes) {
+        var pmData = '';
+        pmRes.setEncoding('utf8');
+
         pmRes.on('data', function(d) {
-          forecast.pm = JSON.parse(d.toString('utf8')).currently;
+          pmData += d;
+        });
+
+        pmRes.on('end', function () {
+          forecast.pm = JSON.parse(pmData).currently;
           res.json(forecast);
         });
       });
