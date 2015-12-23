@@ -3,3 +3,5 @@ config/config.test.js
 config/config.development.js
 config/config.production.js
 npm-debug.log
+*.swp
+

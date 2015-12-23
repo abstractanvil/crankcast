@@ -3,43 +3,37 @@ var express = require('express'),
     http = require('https'),
     config = require('../config');
 
-router.get('/forecast/:lat,:lon,:am,:pm', function(req, res, next) {
+var getForecast = function(lat, lon, time) {
+  var url = `https://api.forecast.io/forecast/${config.forecast.apiKey}/${lat},${lon},${time}`;
 
-  var url = `https://api.forecast.io/forecast/${config.forecast.apiKey}/${req.params.lat},${req.params.lon}`;
+  return new Promise(function(resolve, reject) {
+    http.get(url, function(res) {
+      var data = '';
+      res.setEncoding('utf8');
 
-  var amUrl = `${url},${req.params.am}`;
+      res.on('data', (d) => { data += d; });
 
-  var pmUrl = `${url},${req.params.pm}`;
-  
-  var forecast = {};
-
-  // TODO refactor with promises and es6
-  http.get(amUrl, function (amRes) {
-    var amData = '';
-    amRes.setEncoding('utf8');
-
-    amRes.on('data', function (d) {
-      amData += d;
-    });
-
-    amRes.on('end', function () {
-      forecast.am  = JSON.parse(amData).currently;
-
-      http.get(pmUrl, function (pmRes) {
-        var pmData = '';
-        pmRes.setEncoding('utf8');
-
-        pmRes.on('data', function(d) {
-          pmData += d;
-        });
-
-        pmRes.on('end', function () {
-          forecast.pm = JSON.parse(pmData).currently;
-          res.json(forecast);
-        });
+      res.on('end', function() {
+        // TODO json parsing error handling
+        var forecast = JSON.parse(data).currently;
+        resolve(forecast);
       });
     });
   });
+}
+
+router.get('/forecast/:lat,:lon,:am,:pm', function(req, res, next) {
+  var forecast = {};
+  getForecast(req.params.lat, req.params.lon, req.params.am)
+    .then(function(d) {
+      forecast.am = d;
+      return getForecast(req.params.lat, req.params.lon, req.params.pm);
+    })
+    .then(function(d) {
+      forecast.pm = d;
+      res.json(forecast);
+    });
 });
 
-module.exports = router;
+module.exports = router
+
