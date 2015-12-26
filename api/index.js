@@ -1,10 +1,13 @@
 var express = require('express'),
     router = express.Router(),
     http = require('https'),
-    config = require('../config');
+    config = require('../config'),
+    moment = require('moment');
 
-var getForecast = function(lat, lon, time) {
-  var url = `https://api.forecast.io/forecast/${config.forecast.apiKey}/${lat},${lon},${time}`;
+var getForecast = function(lat, lon, date, time) {
+  var url = `https://api.forecast.io/forecast/${config.forecast.apiKey}/${lat},${lon},${date}T${time}`;
+
+  console.log(url);
 
   return new Promise(function(resolve, reject) {
     http.get(url, function(res) {
@@ -22,16 +25,33 @@ var getForecast = function(lat, lon, time) {
   });
 }
 
-router.get('/forecast/:lat,:lon,:am,:pm', function(req, res, next) {
-  var forecast = {};
-  getForecast(req.params.lat, req.params.lon, req.params.am)
+router.get('/forecast/:lat,:lon,:date,:am,:pm', function(req, res, next) {
+
+  var forecasts = [
+    {
+      date: req.params.date
+    },
+    {
+      date: moment(req.params.date).add(1, 'day').format('YYYY-MM-DD')
+    }
+  ];
+  
+  getForecast(req.params.lat, req.params.lon, req.params.date, req.params.am)
     .then(function(d) {
-      forecast.am = d;
-      return getForecast(req.params.lat, req.params.lon, req.params.pm);
+      forecasts[0].am = d;
+      return getForecast(req.params.lat, req.params.lon, req.params.date, req.params.pm);
     })
     .then(function(d) {
-      forecast.pm = d;
-      res.json(forecast);
+      forecasts[0].pm = d;
+      return getForecast(req.params.lat, req.params.lon, forecasts[1].date, req.params.am);
+    })
+    .then(function(d) {
+      forecasts[1].am = d;
+      return getForecast(req.params.lat, req.params.lon, forecasts[1].date, req.params.pm);
+    })
+    .then(function(d) {
+      forecasts[1].pm = d;
+      res.json(forecasts);
     });
 });
 

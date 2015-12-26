@@ -5,19 +5,19 @@ html(ng-app="crankcast")
   
   body
     section#index(ng-controller="MainController as vm")
-      article
+      article(ng-repeat="forecast in vm.forecasts")
         div
-          h2 {{ vm.showTime(vm.am) }}
-          p {{ vm.forecast.am.temperature | degrees }} / {{ vm.forecast.am.precipProbability | percent }}
-          h3 {{ vm.forecast.am.summary }}
+          h2 {{ vm.showTime(forecast.am.time) }}
+          p {{ forecast.am.temperature | degrees }} / {{ forecast.am.precipProbability | percent }}
+          h3 {{ forecast.am.summary }}
 
         div
-          h1 {{ vm.showDate(vm.am) }}
+          h1 {{ vm.showDate(forecast.date) }}
        
         div
-          h2 {{ vm.showTime(vm.pm) }}
-          p {{ vm.forecast.pm.temperature | degrees }} / {{ vm.forecast.pm.precipProbability | percent }}
-          h3 {{ vm.forecast.pm.summary }}
+          h2 {{ vm.showTime(forecast.pm.time) }}
+          p {{ forecast.pm.temperature | degrees }} / {{ forecast.pm.precipProbability | percent }}
+          h3 {{ forecast.pm.summary }}
 
     script(src="lib/angular/angular.js")
     script(src="lib/d3/d3.js")
