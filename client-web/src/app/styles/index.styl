@@ -1,22 +1,31 @@
 @require 'common'
 
-#index
+body
+  background #f1fafb
+
+#index 
+  
+  color-base =  #1bb5ec
+  
   article
-    background #1bb5ec
+    margin gutter 0
+    background color-base
 
     display flex
     flex-direction row
     flex-wrap nowrap
     justify-content center
 
-    h2, h3
+    h1, h2, h3
       font-size font-size-small
-      color #c7f6f5
+      color lighten(color-base, 75%)
 
     p
       margin gutter 0
       font-size font-size-big
 
     div
+      width 175px
       text-align center
       padding 8px 
+      color darken(color-base, 75%)
