@@ -18,10 +18,9 @@ angular.module 'crankcast', []
   .factory 'forecasts', ['$http', '$q', ($http, $q) ->
     cacheKey = 'crankcast-cache'
 
-    writeCache = (location, forecast) ->
+    writeCache = (forecast) ->
       toCache =
         timestamp: Date.now()
-        location: location
         data: forecast
 
       localStorage.setItem cacheKey, JSON.stringify(toCache)
@@ -30,21 +29,19 @@ angular.module 'crankcast', []
       cached = localStorage.getItem cacheKey 
       if cached then JSON.parse(cached) else undefined
 
-    canUseCache = (location, cache) ->
+    canUseCache = (cache) ->
       cache &&
-      cache.location.lat == location.lat &&
-      cache.location.lon == location.lon &&
       ((Date.now() - cache.timestamp) < (15 * 60 * 1000)) # 15 minutes
 
     (location, date, am, pm) ->
       $q (resolve, reject) ->
         cache = readCache()
-        if canUseCache(location, cache)
+        if canUseCache(cache)
           resolve(cache.data)
         else
           $http.get("/api/forecast/#{location.lat},#{location.lon},#{date},#{am},#{pm}").then(
             (data) ->
-              writeCache(location, data.data)
+              writeCache(data.data)
               resolve(data.data)
             (error) -> reject(error)
       )
