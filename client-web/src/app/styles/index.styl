@@ -5,27 +5,56 @@ body
   background #f1fafb
 
 #index 
-  
-  color-base =  #1bb5ec
-  
+  border-color = alpha(color-base, 25%)
+
   article
-    background color-base
+    clearfix()
+    margin 0 auto
+    width 400px
 
-    display flex
-    flex-direction row
-    flex-wrap nowrap
-    justify-content center
+    h1
+      padding 2px
+      text-align center
+      text-transform uppercase
+      background border-color
+    
+    h2
+      text-align right
 
-    h1, h2, h3
+    h1, h2, h3, figcaption
       font-size font-size-small
-      color lighten(color-base, 75%)
 
-    p
-      margin gutter 0
-      font-size font-size-big
+    figure
+      width 50%
+      float left
+
+      figcaption
+        color text-color-light
 
     div
-      width 175px
-      text-align center
-      padding 8px 
-      color darken(color-base, 75%)
+      float left
+      width 50%
+      padding gutter-small
+
+      &.forecast
+        border-left 1px solid border-color 
+
+      &.time
+        p
+          text-align right
+          font-size font-size-small
+          color text-color-light
+
+      &:last-child
+        padding-bottom 32px
+
+    &.today
+      
+      p
+        font-size font-size-huge
+
+      div
+        padding gutter gutter-small
+
+        &:last-child
+          padding-bottom 64px
