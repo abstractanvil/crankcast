@@ -7,8 +7,6 @@ var express = require('express'),
 var getForecast = function(lat, lon, date, time) {
   var url = `https://api.forecast.io/forecast/${config.forecast.apiKey}/${lat},${lon},${date}T${time}`;
 
-  console.log(url);
-
   return new Promise(function(resolve, reject) {
     http.get(url, function(res) {
       var data = '';
@@ -27,32 +25,39 @@ var getForecast = function(lat, lon, date, time) {
 
 router.get('/forecast/:lat,:lon,:date,:am,:pm', function(req, res, next) {
 
-  var forecasts = [
-    {
-      date: req.params.date
-    },
-    {
-      date: moment(req.params.date).add(1, 'day').format('YYYY-MM-DD')
+  var dateFormat = 'YYYY-MM-DD';
+
+  var day = function(days) {
+    if (days) {
+      return moment(req.params.date).add(days, 'days').format(dateFormat);
     }
+    else {
+      return moment(req.params.date).format(dateFormat);
+    }
+  }
+
+  var forecasts = [
+    { date: day() },
+    { date: day(1) }, 
+    { date: day(2) },
+    { date: day(3) },
+    { date: day(4) }
   ];
   
-  getForecast(req.params.lat, req.params.lon, req.params.date, req.params.am)
-    .then(function(d) {
-      forecasts[0].am = d;
-      return getForecast(req.params.lat, req.params.lon, req.params.date, req.params.pm);
-    })
-    .then(function(d) {
-      forecasts[0].pm = d;
-      return getForecast(req.params.lat, req.params.lon, forecasts[1].date, req.params.am);
-    })
-    .then(function(d) {
-      forecasts[1].am = d;
-      return getForecast(req.params.lat, req.params.lon, forecasts[1].date, req.params.pm);
-    })
-    .then(function(d) {
-      forecasts[1].pm = d;
-      res.json(forecasts);
+  var promises = [];
+  forecasts.forEach(function(forecast) {
+    promises.push(getForecast(req.params.lat, req.params.lon, forecast.date, req.params.am));
+    promises.push(getForecast(req.params.lat, req.params.lon, forecast.date, req.params.pm));
+  });
+
+  Promise.all(promises).then(function(d) {
+    forecasts.forEach(function(forecast, i) {
+      forecast.am = d[i * 2];
+      forecast.pm = d[i * 2 + 1];
     });
+
+    res.json(forecasts);
+  });
 });
 
 module.exports = router
