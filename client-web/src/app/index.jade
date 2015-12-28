@@ -3,9 +3,9 @@ html(ng-app="crankcast")
   - var title = 'Index'
   include ./includes/head.jade
   
-  body
-    section#index(ng-controller="MainController as vm")
-      article(ng-repeat="forecast in vm.forecasts")
+  body#index(ng-controller="MainController as vm")
+    section(ng-repeat="forecast in vm.forecasts")
+      article
         div
           h2 {{ vm.showTime(forecast.am.time) }}
           p {{ forecast.am.temperature | degrees }} / {{ forecast.am.precipProbability | percent }}
