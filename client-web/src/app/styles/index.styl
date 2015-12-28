@@ -10,7 +10,7 @@ body
   article
     clearfix()
     margin 0 auto
-    width 400px
+    max-width 400px
 
     h1
       padding 2px
@@ -40,6 +40,8 @@ body
         border-left 1px solid border-color 
 
       &.time
+        padding-top gutter-small
+
         p
           text-align right
           font-size font-size-small
@@ -54,8 +56,10 @@ body
       p
         font-size font-size-huge
 
-      div
-        padding gutter gutter-small
+        @media screen and (max-width: 400px)
+          font-size font-size-big
 
+      div
         &:last-child
           padding-bottom 64px
+
