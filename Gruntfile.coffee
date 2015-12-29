@@ -76,3 +76,4 @@ module.exports = (grunt) ->
   grunt.registerTask 'dist', ['clean', 'bower', 'stylus', 'jade', 'coffee']
   grunt.registerTask 'serve', ['connect:server', 'watch']
   grunt.registerTask 'default', ['dist']
+  grunt.registerTask 'heroku', ['default']
