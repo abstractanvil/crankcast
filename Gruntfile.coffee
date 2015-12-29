@@ -1,21 +1,21 @@
 module.exports = (grunt) ->
 
   grunt.initConfig
-    clean: ["./dist"]
+    clean: ["./client-web/dist"]
 
     bower:
       install:
         options:
-          targetDir: './dist/lib'
+          targetDir: './client-web/dist/lib'
 
     jade:
       compile:
         options:
           pretty: true
         files: [{
-            cwd: './src/app',
+            cwd: './client-web/src/app',
             src: '*.jade',
-            dest: './dist',
+            dest: './client-web/dist',
             expand: true,
             ext: '.html'
         }]
@@ -23,46 +23,46 @@ module.exports = (grunt) ->
     stylus:
       compile:
         files:
-          './dist/styles/style.css': ['./src/app/styles/*.styl']
+          './client-web/dist/styles/style.css': ['./client-web/src/app/styles/*.styl']
 
     imagemin:
       all:
         files: [
           {
             expand: true,
-            cwd: './src/assets/images/',
+            cwd: './client-web/src/assets/images/',
             src: ['**/*.{png,jpg,gif}'],
-            dest: './dist/assets/images/'
+            dest: './client-web/dist/assets/images/'
           }
         ]
 
     coffee:
       compile:
         files:
-          './dist/scripts/app.js': ['./src/app/scripts/*.coffee']
+          './client-web/dist/scripts/app.js': ['./client-web/src/app/scripts/*.coffee']
 
     watch:
       jade:
-        files: ['./src/app/**/*.jade']
+        files: ['./client-web/src/app/**/*.jade']
         tasks: ['jade']
 
       styl:
-        files: ['./src/app/styles/*.styl']
+        files: ['./client-web/src/app/styles/*.styl']
         tasks: ['stylus']
 
       images:
-        files: ['./src/app/assets/images/*.{png,jpg,gif}']
+        files: ['./client-web/src/app/assets/images/*.{png,jpg,gif}']
         tasks: ['imagemin']
 
       scripts:
-        files: ['./src/app/scripts/*.coffee']
+        files: ['./client-web/src/app/scripts/*.coffee']
         tasks: ['coffee']
 
     connect:
       server:
         options:
           port: 3000,
-          base: './dist'
+          base: './client-web/dist'
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-jade'

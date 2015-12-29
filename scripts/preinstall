@@ -1,8 +1,0 @@
-#!/bin/bash
-
-cd client-web
-npm install
-grunt dist
-
-cd ../
-
