@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "preinstall": "./scripts/preinstall",
     "start": "node ./bin/www",
     "test": "NODE_ENV=test mocha",
     "dev": "NODE_ENV=development node ./bin/www"
@@ -28,3 +29,4 @@
     "should": "^7.1.0"
   }
 }
+
