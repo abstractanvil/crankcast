@@ -11,8 +11,8 @@ angular.module 'crankcast', []
     $q (resolve, reject) ->
       navigator.geolocation.getCurrentPosition (p) ->
         resolve
-          lat: p.coords.latitude.toFixed(2),
-          lon: p.coords.longitude.toFixed(2)
+          lat: p.coords.latitude,
+          lon: p.coords.longitude
   ]
     
   .factory 'forecasts', ['$http', '$q', ($http, $q) ->
