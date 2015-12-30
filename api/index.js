@@ -15,9 +15,13 @@ var getForecast = function(lat, lon, date, time) {
       res.on('data', (d) => { data += d; });
 
       res.on('end', function() {
-        // TODO json parsing error handling
-        var forecast = JSON.parse(data).currently;
-        resolve(forecast);
+        try {
+          var forecast = JSON.parse(data).currently;
+          resolve(forecast);
+        }
+        catch (e) {
+          reject(e);
+        }
       });
     });
   });
@@ -57,6 +61,9 @@ router.get('/forecast/:lat,:lon,:date,:am,:pm', function(req, res, next) {
     });
 
     res.json(forecasts);
+  },
+  function(d) {
+    res.status(500).json({error: d});
   });
 });
 
