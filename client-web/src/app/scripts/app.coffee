@@ -73,6 +73,9 @@ angular.module 'crankcast', []
         when i <= 0.4 then 'heavy'
         else 'very heavy'
 
+    vm.showSun = (sun, time) ->
+      moment(sun * 1000).from(moment(time * 1000))
+
     # https://en.wikipedia.org/wiki/Beaufort_scale
     vm.showWind = (w) ->
       switch

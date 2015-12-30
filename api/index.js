@@ -16,7 +16,7 @@ var getForecast = function(lat, lon, date, time) {
 
       res.on('end', function() {
         try {
-          var forecast = JSON.parse(data).currently;
+          var forecast = JSON.parse(data);
           resolve(forecast);
         }
         catch (e) {
@@ -56,8 +56,10 @@ router.get('/forecast/:lat,:lon,:date,:am,:pm', function(req, res, next) {
 
   Promise.all(promises).then(function(d) {
     forecasts.forEach(function(forecast, i) {
-      forecast.am = d[i * 2];
-      forecast.pm = d[i * 2 + 1];
+      forecast.sunrise = d[i * 2].daily.data[0].sunriseTime;
+      forecast.sunset = d[i * 2 + 1].daily.data[0].sunsetTime;
+      forecast.am = d[i * 2].currently;
+      forecast.pm = d[i * 2 + 1].currently;
     });
 
     res.json(forecasts);
