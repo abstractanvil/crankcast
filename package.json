@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "./scripts/preinstall",
+    "preinstall": "bower install",
     "start": "node ./bin/www",
     "test": "NODE_ENV=test mocha",
     "dev": "NODE_ENV=development node ./bin/www"
