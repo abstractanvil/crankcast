@@ -72,6 +72,23 @@ angular.module 'crankcast', []
         when i <= 0.1 then 'moderate'
         when i <= 0.4 then 'heavy'
         else 'very heavy'
+
+    # https://en.wikipedia.org/wiki/Beaufort_scale
+    vm.showWind = (w) ->
+      switch
+        when w <= 1 then 'calm'
+        when w <= 3 then 'light air'
+        when w <= 7 then 'light breeze'
+        when w <= 12 then 'gentle breeze'
+        when w <= 18 then 'moderate breeze'
+        when w <= 24 then 'fresh breeze'
+        when w <= 31 then 'strong breeze'
+        when w <= 38 then 'high wind'
+        when w <= 46 then 'gale'
+        when w <= 54 then 'strong gale'
+        when w <= 63 then 'whole gale'
+        when w <= 72 then 'violent storm'
+        else 'hurricane force'
     
     dateFormat = 'YYYY-MM-DD'
     timeFormat = 'HH:mm:ssZ'

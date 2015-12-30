@@ -15,7 +15,7 @@ html(ng-app="crankcast")
         div.forecast
           figure
             p {{ forecast.am.temperature | degrees }}
-            figcaption feels like {{ forecast.am.apparentTemperature | degrees }}
+            figcaption {{ vm.showWind(forecast.am.windSpeed) }}
 
           figure
             p {{ forecast.am.precipProbability | percent }}
@@ -30,7 +30,7 @@ html(ng-app="crankcast")
         div.forecast
           figure
             p {{ forecast.pm.temperature | degrees }}
-            figcaption feels like {{ forecast.pm.apparentTemperature | degrees}}
+            figcaption {{ vm.showWind(forecast.pm.windSpeed) }}
 
           figure
             p {{ forecast.pm.precipProbability | percent }}

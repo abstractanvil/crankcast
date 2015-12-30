@@ -6,11 +6,12 @@ body
 
 #index 
   border-color = alpha(color-base, 25%)
+  app-width = 400px
 
   article
     clearfix()
     margin 0 auto
-    max-width 400px
+    max-width app-width
 
     h1
       padding 2px
@@ -26,6 +27,7 @@ body
     figure
       width 50%
       float left
+      padding-right gutter-small
 
       figcaption
         color text-color-light
@@ -56,7 +58,7 @@ body
       p
         font-size font-size-huge
 
-        @media screen and (max-width: 400px)
+        @media screen and (max-width: app-width)
           font-size font-size-big
 
       div
