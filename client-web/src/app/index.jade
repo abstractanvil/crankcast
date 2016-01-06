@@ -4,7 +4,10 @@ html(ng-app="crankcast")
   include ./includes/head.jade
   
   body#index(ng-controller="MainController as vm")
-    section
+    section.loading(ng-hide="vm.forecasts")
+      h1 loading forecast...
+
+    section(ng-show="vm.forecasts")
       article(ng-repeat="forecast in vm.forecasts" ng-class="{'today': $index == 0}")
         h1 {{ vm.showDate(forecast.date) }}
 
