@@ -11,7 +11,7 @@ html(ng-app="crankcast")
         div.time
           h2 {{ vm.showTime(forecast.am.time) }}
           p {{ forecast.am.summary }}
-          p sunrise {{ vm.showSun(forecast.sunrise, forecast.am.time) }}
+          p sunrise at {{ vm.showTime(forecast.sunrise) }}
 
         div.forecast
           figure
@@ -27,7 +27,7 @@ html(ng-app="crankcast")
         div.time
           h2 {{ vm.showTime(forecast.pm.time) }}
           p {{ forecast.pm.summary }}
-          p sunset {{ vm.showSun(forecast.sunset, forecast.pm.time) }}
+          p sunset at {{ vm.showTime(forecast.sunset) }}
 
         div.forecast
           figure
