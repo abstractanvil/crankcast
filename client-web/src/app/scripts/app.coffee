@@ -33,7 +33,9 @@ angular.module 'crankcast', []
       cache &&
       ((Date.now() - cache.timestamp) < (15 * 60 * 1000)) # 15 minutes
 
-    (location, date, am, pm) ->
+    cache: () -> 
+      'cached'
+    get: (location, date, am, pm) ->
       $q (resolve, reject) ->
         cache = readCache()
         if canUseCache(cache)
@@ -82,7 +84,7 @@ angular.module 'crankcast', []
     timeFormat = 'HH:mm:ssZ'
 
     location.then (l) ->
-      forecasts(l, vm.today.format(dateFormat), vm.am.format(timeFormat), vm.pm.format(timeFormat)).then(
+      forecasts.get(l, vm.today.format(dateFormat), vm.am.format(timeFormat), vm.pm.format(timeFormat)).then(
         (data) -> vm.forecasts = data
         (error) -> console.log error
       )
