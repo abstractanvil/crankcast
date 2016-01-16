@@ -8,11 +8,12 @@ angular.module 'crankcast', []
   ]
       
   .factory 'location', ['$q', ($q) ->
-    $q (resolve, reject) ->
-      navigator.geolocation.getCurrentPosition (p) ->
-        resolve
-          lat: p.coords.latitude,
-          lon: p.coords.longitude
+    get: ->
+      $q (resolve, reject) ->
+        navigator.geolocation.getCurrentPosition (p, e) ->
+          resolve
+            lat: p.coords.latitude,
+            lon: p.coords.longitude
   ]
     
   .factory 'forecasts', ['$http', '$q', ($http, $q) ->
@@ -34,19 +35,21 @@ angular.module 'crankcast', []
       ((Date.now() - cache.timestamp) < (15 * 60 * 1000)) # 15 minutes
 
     cache: () -> 
-      'cached'
-    get: (location, date, am, pm) ->
       $q (resolve, reject) ->
         cache = readCache()
         if canUseCache(cache)
           resolve(cache.data)
         else
-          $http.get("/api/forecast/#{location.lat},#{location.lon},#{date},#{am},#{pm}").then(
-            (data) ->
-              writeCache(data.data)
-              resolve(data.data)
-            (error) -> reject(error)
-      )
+          reject()
+          
+    get: (location, date, am, pm) ->
+      $q (resolve, reject) ->
+        $http.get("/api/forecast/#{location.lat},#{location.lon},#{date},#{am},#{pm}").then(
+          (data) ->
+            writeCache(data.data)
+            resolve(data.data)
+          (error) -> reject(error)
+    )
   ]
 
   .controller 'MainController', ['forecasts', 'location', (forecasts, location) ->
@@ -79,15 +82,18 @@ angular.module 'crankcast', []
       moment(sun * 1000).from(moment(time * 1000))
 
     vm.showWind = (w) -> "#{Math.round(w)} mph winds"
-    
-    dateFormat = 'YYYY-MM-DD'
-    timeFormat = 'HH:mm:ssZ'
 
-    location.then (l) ->
-      forecasts.get(l, vm.today.format(dateFormat), vm.am.format(timeFormat), vm.pm.format(timeFormat)).then(
-        (data) -> vm.forecasts = data
-        (error) -> console.log error
-      )
+    getForecast = (l) -> 
+      dateFormat = 'YYYY-MM-DD'
+      timeFormat = 'HH:mm:ssZ'
+      
+      forecasts.get(l, vm.today.format(dateFormat), vm.am.format(timeFormat), vm.pm.format(timeFormat))
+        .then((data) -> vm.forecasts = data)
+      
+    forecasts.cache().then( 
+      (cached) -> vm.forecasts = cached
+      () -> location.get().then(getForecast)
+    )
 
     vm
   ]

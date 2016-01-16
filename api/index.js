@@ -44,8 +44,7 @@ router.get('/forecast/:lat,:lon,:date,:am,:pm', function(req, res, next) {
     { date: day() },
     { date: day(1) }, 
     { date: day(2) },
-    { date: day(3) },
-    { date: day(4) }
+    { date: day(3) }
   ];
   
   var promises = [];
